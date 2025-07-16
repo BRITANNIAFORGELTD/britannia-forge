@@ -1,7 +1,8 @@
 import React from 'react';
 import { Flame, Clock, Mail, MapPin } from 'lucide-react';
 import { FaYoutube, FaInstagram, FaTwitter, FaPinterest, FaFacebook } from 'react-icons/fa';
-import logoImage from '@assets/Main-logo copy 2_1752638016931.png';
+// Footer logo will be served from public directory
+const logoImage = '/footer-logo.png';
 
 export function Footer() {
   return (

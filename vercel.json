@@ -3,18 +3,34 @@
   "name": "britannia-forge",
   "builds": [
     {
-      "src": "index.js",
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "client/dist"
+      }
+    },
+    {
+      "src": "api/index.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/index.js"
+      "dest": "/client/dist/index.html"
     }
   ],
   "env": {
     "NODE_ENV": "production"
   },
-  "regions": ["lhr1"]
+  "regions": ["lhr1"],
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30
+    }
+  }
 }

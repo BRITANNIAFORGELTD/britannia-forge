@@ -1,0 +1,29 @@
+User-agent: *
+Allow: /
+
+# Prioritize main pages
+Sitemap: https://britanniaforge.co.uk/sitemap.xml
+
+# Important pages for SEO
+Allow: /quote
+Allow: /service-request
+Allow: /engineer-registration
+Allow: /customer-dashboard
+Allow: /engineer-portal
+
+# Block admin areas
+Disallow: /admin/
+Disallow: /api/
+
+# Allow search engine crawling of main assets
+Allow: /assets/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.svg
+Allow: /*.ico
+
+# Crawl delay (optional)
+Crawl-delay: 1

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Wrench, UserCheck, LogOut, User } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import logoImage from '@assets/favicon_1752623973004.png';
+// Logo will be served from public directory
+const logoImage = '/favicon.png';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

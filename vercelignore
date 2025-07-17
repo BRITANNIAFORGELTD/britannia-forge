@@ -1,0 +1,16 @@
+node_modules
+.git
+.env
+.env.local
+.replit
+client/src
+server
+shared
+*.ts
+*.tsx
+tsconfig.json
+vite.config.ts
+drizzle.config.ts
+README.md
+.gitignore
+attached_assets

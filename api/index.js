@@ -1,11 +1,4 @@
-// Vercel serverless function entry point
 import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-// ES module __dirname equivalent
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // Create express app
 const app = express();
@@ -29,62 +22,59 @@ app.use((req, res, next) => {
   next();
 });
 
-// Health check endpoints
-app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'healthy',
-    timestamp: new Date().toISOString(),
-    environment: 'production'
-  });
-});
-
+// Health check
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    environment: 'production'
+    environment: 'production',
+    node_version: process.version
   });
 });
 
 // Test endpoint
 app.get('/api/test', (req, res) => {
   res.json({ 
-    message: 'API is working',
+    message: 'API is working', 
     timestamp: new Date().toISOString(),
-    environment: 'production'
+    headers: req.headers
   });
 });
 
-// Initialize backend routes
-async function initializeRoutes() {
-  try {
-    // Try to import the built server routes
-    const { registerRoutes } = await import('../dist/routes.js');
-    await registerRoutes(app);
-    console.log('Backend routes registered successfully');
-  } catch (error) {
-    console.error('Failed to register backend routes:', error.message);
-    
-    // Fallback endpoints for basic functionality
-    app.get('/api/boilers', (req, res) => {
-      res.json([
-        { id: 1, type: 'Combi', brand: 'Worcester Bosch', model: 'Greenstar 4000', kw: 25, price: 1150 },
-        { id: 2, type: 'System', brand: 'Vaillant', model: 'ecoTEC Plus', kw: 28, price: 1350 }
-      ]);
-    });
-    
-    app.post('/api/quotes', (req, res) => {
-      res.json({ 
-        id: 1, 
-        message: 'Quote submitted successfully',
-        timestamp: new Date().toISOString()
-      });
-    });
-  }
-}
+// Example API endpoints
+app.get('/api/users/:id', (req, res) => {
+  res.json({
+    id: req.params.id,
+    name: 'Example User',
+    email: 'user@example.com'
+  });
+});
 
-// Initialize routes
-initializeRoutes();
+app.post('/api/users', (req, res) => {
+  res.status(201).json({
+    id: Date.now(),
+    ...req.body,
+    created: new Date().toISOString()
+  });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('API Error:', err);
+  res.status(err.status || 500).json({
+    error: err.message || 'Internal Server Error',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Default 404 handler for API routes
+app.use('/api/*', (req, res) => {
+  res.status(404).json({
+    error: 'API endpoint not found',
+    path: req.path,
+    method: req.method
+  });
+});
 
 // Export for Vercel
 export default app;

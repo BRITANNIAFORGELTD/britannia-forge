@@ -1,6 +1,7 @@
 {
-  "buildCommand": "npm install && npx vite build",
+  "buildCommand": "npm install && NODE_ENV=production npx vite build --mode production",
   "outputDirectory": "dist/public",
+  "installCommand": "npm install --legacy-peer-deps",
   "functions": {
     "api/index.js": {
       "maxDuration": 30

@@ -1,7 +1,13 @@
 // Production server entry point for Vercel deployment
-const express = require('express');
-const path = require('path');
-const { fileURLToPath } = require('url');
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { execSync } from 'child_process';
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Create express app
 const app = express();
@@ -11,7 +17,6 @@ process.env.NODE_ENV = 'production';
 
 // Build frontend first
 console.log('Building frontend...');
-const { execSync } = require('child_process');
 try {
   execSync('npm run build', { stdio: 'inherit' });
   console.log('Frontend built successfully');
@@ -49,9 +54,11 @@ app.use(express.static(path.join(__dirname, 'client/dist')));
 
 // Import and use backend routes
 try {
-  const { registerRoutes } = require('./dist/routes.js');
-  registerRoutes(app);
-  console.log('Backend routes registered successfully');
+  const routesModule = await import('./dist/routes.js');
+  if (routesModule.registerRoutes) {
+    routesModule.registerRoutes(app);
+    console.log('Backend routes registered successfully');
+  }
 } catch (error) {
   console.error('Failed to register backend routes:', error.message);
   
@@ -79,5 +86,5 @@ app.get('*', (req, res) => {
   });
 });
 
-// Export for Vercel
-module.exports = app;
+// Export for Vercel - ES module syntax
+export default app;

@@ -1,7 +1,8 @@
 {
-  "buildCommand": "npm install && NODE_ENV=production npx vite build --mode production",
+  "buildCommand": "node vercel-build.mjs",
   "outputDirectory": "dist/public",
-  "installCommand": "npm install --legacy-peer-deps",
+  "installCommand": "npm install --force",
+  "framework": null,
   "functions": {
     "api/index.js": {
       "maxDuration": 30

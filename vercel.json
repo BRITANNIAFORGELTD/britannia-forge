@@ -1,7 +1,7 @@
 {
-  "buildCommand": "node vercel-build.mjs",
+  "buildCommand": "npm run build",
   "outputDirectory": "dist/public",
-  "installCommand": "npm install --force",
+  "installCommand": "npm install",
   "framework": null,
   "functions": {
     "api/index.js": {

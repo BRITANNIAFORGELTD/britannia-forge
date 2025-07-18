@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Users, ShieldCheck, Award, CheckCircle, MapPin, Phone, Mail } from 'lucide-react';
 import { Link } from 'wouter';
-import aboutImage from '@assets/logo_1752637323721.png';
+// Logo will be served from public directory
 
 export default function About() {
   // SEO Meta Tags
@@ -77,7 +77,7 @@ export default function About() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
               <div className="order-2 lg:order-1">
                 <img 
-                  src={aboutImage} 
+                  src="/logo.png" 
                   alt="Professional craftsman working with precision tools - representing Britannia Forge's commitment to quality workmanship" 
                   className="rounded-lg shadow-lg object-cover w-full h-auto"
                 />

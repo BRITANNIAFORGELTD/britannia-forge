@@ -6,7 +6,8 @@
       "src": "client/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist"
+        "distDir": "dist",
+        "buildCommand": "npm install && npm run build"
       }
     },
     {
@@ -32,5 +33,6 @@
     "api/index.js": {
       "maxDuration": 30
     }
-  }
+  },
+  "installCommand": "npm install"
 }

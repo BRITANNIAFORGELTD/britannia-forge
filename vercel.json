@@ -1,18 +1,29 @@
 {
-  "buildCommand": "npm run build",        // Command to build your app
-  "outputDirectory": "dist/public",       // Where the built files go
-  "installCommand": "npm install",        // Command to install packages
-  "framework": "vite",                    // Tells Vercel this is a Vite project
+  "version": 2,
+  "name": "britannia-forge",
+  "builds": [
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/dist/index.html"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "regions": ["lhr1"],
   "functions": {
     "api/index.js": {
-      "maxDuration": 30,                  // API timeout (30 seconds)
-      "runtime": "nodejs18.x"             // Use Node.js version 18
+      "maxDuration": 30
     }
-  },
-  "rewrites": [                           // URL routing rules
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/index.js"
-    }
-  ]
+  }
 }

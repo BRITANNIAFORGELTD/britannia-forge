@@ -1,7 +1,12 @@
 [build]
   base = "client"
-  publish = "dist"
+  publish = "client/dist"
   command = "npm run build"
 
 [build.environment]
   NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -6,8 +6,7 @@
       "src": "client/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist",
-        "buildCommand": "npm install && npm run build"
+        "distDir": "dist"
       }
     },
     {
@@ -19,6 +18,10 @@
     {
       "src": "/api/(.*)",
       "dest": "/api/index.js"
+    },
+    {
+      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))",
+      "dest": "/client/dist/$1"
     },
     {
       "src": "/(.*)",
@@ -33,6 +36,5 @@
     "api/index.js": {
       "maxDuration": 30
     }
-  },
-  "installCommand": "npm install"
+  }
 }

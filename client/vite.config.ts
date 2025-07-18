@@ -6,18 +6,13 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(process.cwd(), './src'),
-      '@shared': path.resolve(process.cwd(), '../shared')
+      '@': path.resolve('./src'),
+      '@shared': path.resolve('../shared')
     }
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
-    rollupOptions: {
-      input: {
-        main: path.resolve(process.cwd(), 'index.html')
-      }
-    }
+    sourcemap: true
   },
   server: {
     port: 3000,

@@ -3,7 +3,7 @@ import { useLocation } from 'wouter';
 import { Header } from '@/components/navigation/header';
 import { Footer } from '@/components/navigation/footer';
 import { SEOHead } from '@/components/seo/seo-head';
-import { CameraOnlyPhoto } from '@/components/camera-only-photo';
+import { SimplePhotoUpload } from '@/components/simple-photo-upload';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
@@ -291,6 +291,25 @@ export default function ServiceUpload() {
       });
       return;
     }
+    
+    if (!formData.description.trim()) {
+      toast({
+        title: "Description Required",
+        description: "Please describe the work needed.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!postcodeValid) {
+      toast({
+        title: "Invalid Postcode",
+        description: "Please enter a valid UK postcode.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setCurrentStep(2);
   };
   
@@ -387,47 +406,33 @@ export default function ServiceUpload() {
                 </CardContent>
               </Card>
 
-              {/* Account Verification Notice */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                <div className="flex items-center mb-2">
-                  <Shield className="w-5 h-5 text-blue-600 mr-2" />
-                  <h3 className="text-lg font-semibold text-blue-800">Verified Account Required</h3>
-                </div>
-                <p className="text-sm text-blue-700">
-                  Photo capture requires email verification to prevent security risks. Complete email verification in step 2 to enable camera access.
-                </p>
-              </div>
-
               <div className="space-y-6">
                 <div className="grid grid-cols-1 gap-6">
-                  <CameraOnlyPhoto
+                  <SimplePhotoUpload
                     label="Main Photo (Required)"
                     onPhotoCapture={handlePhotoCapture('main')}
                     hasPhoto={!!formData.photos.main}
-                    isVerifiedAccount={formData.emailVerified}
+                    required={true}
                   />
                 </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <CameraOnlyPhoto
+                  <SimplePhotoUpload
                     label="Additional Photo 1"
                     onPhotoCapture={handlePhotoCapture('additional1')}
                     hasPhoto={!!formData.photos.additional1}
-                    isVerifiedAccount={formData.emailVerified}
                   />
                   
-                  <CameraOnlyPhoto
+                  <SimplePhotoUpload
                     label="Additional Photo 2"
                     onPhotoCapture={handlePhotoCapture('additional2')}
                     hasPhoto={!!formData.photos.additional2}
-                    isVerifiedAccount={formData.emailVerified}
                   />
                   
-                  <CameraOnlyPhoto
+                  <SimplePhotoUpload
                     label="Additional Photo 3"
                     onPhotoCapture={handlePhotoCapture('additional3')}
                     hasPhoto={!!formData.photos.additional3}
-                    isVerifiedAccount={formData.emailVerified}
                   />
                 </div>
               </div>

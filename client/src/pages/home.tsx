@@ -16,15 +16,15 @@ export default function Home() {
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="britannia-heading text-5xl md:text-6xl font-bold mb-6">
-            Expert Boiler Installation 
+                    <h1 className="britannia-heading text-5xl md:text-6xl font-bold mb-6">
+            Professional Boiler Replacement
             <span className="block" style={{ color: 'var(--britannia-green)' }}>
-              Across the UK
+              by Certified Engineers Across UK
             </span>
           </h1>
           <p className="britannia-body text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Professional boiler installation and replacement services across the UK, with a focus on London. 
-            Get your instant fixed-price quote without the hassle of home visits or parking fees.
+            Get an instant quote in just a few clicks. Professional boiler replacement and swap services 
+            across the UK without the hassle of home visits or parking fees.
           </p>
           <div className="flex justify-center">
             <a href="/quote" className="britannia-cta-button text-lg px-12 py-4">

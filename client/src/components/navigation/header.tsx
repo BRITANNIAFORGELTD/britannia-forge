@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Wrench, UserCheck, LogOut, User } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-// Logo will be served from public directory
+// Header logo - optimized favicon from public directory
 const logoImage = '/favicon.png';
 
 export function Header() {
@@ -25,8 +25,9 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
         <div className="flex justify-between items-center h-16 lg:h-24">
           <div className="flex items-center">
-            <a href="/" className="cursor-pointer">
-              <img src={logoImage} alt="Britannia Forge" className="w-24 h-24 lg:w-32 lg:h-32 hover:opacity-80 transition-opacity" />
+            <a href="/" className="cursor-pointer flex items-center gap-2">
+              <img src={logoImage} alt="Britannia Forge" className="w-8 h-8 lg:w-10 lg:h-10 hover:opacity-80 transition-opacity" />
+              <span className="font-bold text-lg lg:text-xl text-britannia-green">Britannia Forge</span>
             </a>
           </div>
           

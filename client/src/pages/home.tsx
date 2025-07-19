@@ -16,7 +16,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
-                    <h1 className="britannia-heading text-5xl md:text-6xl font-bold mb-6">
+          <h1 className="britannia-heading text-5xl md:text-6xl font-bold mb-6">
             Professional Boiler Replacement
             <span className="block" style={{ color: 'var(--britannia-green)' }}>
               by Certified Engineers Across UK

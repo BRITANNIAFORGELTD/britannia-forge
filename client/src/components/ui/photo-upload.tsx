@@ -29,6 +29,7 @@ export function PhotoUpload({
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [showPermissionHelp, setShowPermissionHelp] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showRetakeOption, setShowRetakeOption] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
 
@@ -56,6 +57,7 @@ export function PhotoUpload({
     const reader = new FileReader();
     reader.onload = (e) => {
       setCapturedImage(e.target?.result as string);
+      setShowRetakeOption(true); // Allow retaking for better quality
     };
     reader.readAsDataURL(file);
     
@@ -78,14 +80,21 @@ export function PhotoUpload({
     }
   };
 
+  const handleRetakePhoto = () => {
+    setCapturedImage(null);
+    setShowRetakeOption(false);
+    setShowOptions(true);
+  };
+
+  const handleConfirmPhoto = () => {
+    setShowRetakeOption(false);
+    setShowOptions(false);
+  };
+
   const handleFileUpload = () => {
     // Block file uploads for security - camera only
     setShowPermissionHelp(true);
     return;
-    
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
   };
 
   const handlePermissionHelp = () => {
@@ -200,6 +209,40 @@ export function PhotoUpload({
         >
           <div className="animate-spin w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full mr-3" />
           <span className="text-orange-600 font-medium">Processing photo...</span>
+        </motion.div>
+      )}
+
+      {/* Retake Photo Options */}
+      {showRetakeOption && capturedImage && !uploaded && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-3"
+        >
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <p className="text-sm font-medium text-blue-800 mb-2">Photo Preview Ready</p>
+            <p className="text-xs text-blue-700">Check the quality and focus. You can retake if needed.</p>
+          </div>
+          
+          <div className="flex gap-3">
+            <Button
+              type="button"
+              onClick={handleRetakePhoto}
+              variant="outline"
+              className="flex-1 border-orange-300 text-orange-700 hover:bg-orange-50"
+            >
+              <Camera className="w-4 h-4 mr-1" />
+              Retake
+            </Button>
+            <Button
+              type="button"
+              onClick={handleConfirmPhoto}
+              className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+            >
+              <Check className="w-4 h-4 mr-1" />
+              Use This Photo
+            </Button>
+          </div>
         </motion.div>
       )}
 

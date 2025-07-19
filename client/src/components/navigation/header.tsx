@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Wrench, UserCheck, LogOut, User } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-// Header logo - using existing favicon from attached assets
-const logoImage = '/attached_assets/favicon_1752623973004.png';
+// Header logo - using favicon from public directory
+const logoImage = '/favicon.png';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flame, Clock, Mail, MapPin } from 'lucide-react';
 import { FaYoutube, FaInstagram, FaTwitter, FaPinterest, FaFacebook } from 'react-icons/fa';
-// Footer logo will be served from public directory
+// Footer logo - main logo for dark background from public directory
 const logoImage = '/footer-logo.png';
 
 export function Footer() {
@@ -11,7 +11,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center mb-4">
-              <img src={logoImage} alt="Britannia Forge" className="w-40 h-40 brightness-0 invert" />
+              <img src={logoImage} alt="Britannia Forge" className="w-32 h-32 brightness-0 invert" />
             </div>
             <p className="text-gray-300 britannia-body">UK's intelligent boiler installation service. Professional, reliable, and efficient across the nation.</p>
           </div>

@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Camera, Check, Upload, AlertCircle, X, Smartphone, FileImage, Info } from 'lucide-react';
+import { Camera, Check, Upload, AlertCircle, X, Smartphone, FileImage, Info, Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface PhotoUploadProps {
   id: string;
@@ -66,12 +67,22 @@ export function PhotoUpload({
   };
 
   const handleCameraCapture = () => {
+    // Desktop users must use mobile device for security
+    if (!isMobile) {
+      setShowPermissionHelp(true);
+      return;
+    }
+    
     if (cameraInputRef.current) {
       cameraInputRef.current.click();
     }
   };
 
   const handleFileUpload = () => {
+    // Block file uploads for security - camera only
+    setShowPermissionHelp(true);
+    return;
+    
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -120,48 +131,51 @@ export function PhotoUpload({
             exit={{ opacity: 0, y: -10 }}
             className="space-y-3"
           >
-            {/* Mobile-First Design: Show both options prominently */}
+            {/* Security-First Design: Camera Only for Mobile */}
             {isMobile ? (
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <Button
                   type="button"
                   onClick={handleCameraCapture}
-                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg py-3 px-4 font-medium transition-all duration-300"
+                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg py-4 px-4 font-medium transition-all duration-300"
                 >
-                  <Camera className="w-4 h-4 mr-2" />
-                  Take Photo
+                  <Camera className="w-5 h-5 mr-2" />
+                  Take Photo with Camera
                 </Button>
                 
-                <Button
-                  type="button"
-                  onClick={handleFileUpload}
-                  variant="outline"
-                  className="w-full border-orange-200 text-orange-600 hover:bg-orange-50 rounded-lg py-3 px-4 font-medium transition-all duration-300"
-                >
-                  <Upload className="w-4 h-4 mr-2" />
-                  Upload from Gallery
-                </Button>
+                {/* Security notice for mobile */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                  <div className="flex items-start gap-2">
+                    <Shield className="w-4 h-4 text-blue-600 mt-0.5" />
+                    <div className="text-xs text-blue-800">
+                      <p className="font-medium mb-1">Security Features:</p>
+                      <ul className="list-disc list-inside space-y-0.5">
+                        <li>Live camera capture prevents malware uploads</li>
+                        <li>Authentic property verification</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
             ) : (
-              <div className="space-y-2">
-                <Button
-                  type="button"
-                  onClick={handleFileUpload}
-                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg py-3 px-4 font-medium transition-all duration-300"
-                >
-                  <FileImage className="w-4 h-4 mr-2" />
-                  Upload Photo
-                </Button>
+              <div className="space-y-3">
+                {/* Desktop security warning */}
+                <Alert className="border-orange-200 bg-orange-50">
+                  <Smartphone className="w-4 h-4 text-orange-600" />
+                  <AlertDescription className="text-orange-800 text-sm">
+                    <strong>Mobile Device Required</strong><br/>
+                    For security verification, photos must be taken using your mobile device camera.
+                    Please access this page on your phone or tablet.
+                  </AlertDescription>
+                </Alert>
                 
-                <Button
-                  type="button"
-                  onClick={handleCameraCapture}
-                  variant="outline"
-                  className="w-full border-orange-200 text-orange-600 hover:bg-orange-50 rounded-lg py-3 px-4 font-medium transition-all duration-300"
-                >
-                  <Camera className="w-4 h-4 mr-2" />
-                  Use Camera
-                </Button>
+                <div className="text-center p-6 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                  <Smartphone className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                  <p className="text-gray-600 font-medium mb-2">Switch to Mobile Device</p>
+                  <p className="text-sm text-gray-500">
+                    Access this page on your phone to capture live photos for verification
+                  </p>
+                </div>
               </div>
             )}
             
@@ -247,13 +261,23 @@ export function PhotoUpload({
               </div>
               
               <div className="space-y-4 text-sm text-gray-600">
-                <div className="flex items-start gap-3">
-                  <Smartphone className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-800 mb-1">Allow Camera Permission</p>
-                    <p>Your browser will ask for camera permission. Please click "Allow" to use your camera for taking photos.</p>
+                {!isMobile ? (
+                  <div className="flex items-start gap-3">
+                    <Smartphone className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-gray-800 mb-1">Mobile Device Required</p>
+                      <p>For security and verification purposes, all photos must be taken using a mobile device camera.</p>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="flex items-start gap-3">
+                    <Camera className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-gray-800 mb-1">Allow Camera Permission</p>
+                      <p>Your browser will ask for camera permission. Please click "Allow" to use your camera for taking photos.</p>
+                    </div>
+                  </div>
+                )}
                 
                 <div className="flex items-start gap-3">
                   <AlertCircle className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
@@ -263,18 +287,15 @@ export function PhotoUpload({
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-3">
-                  <Upload className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-800 mb-1">Alternative: Upload from Gallery</p>
-                    <p>You can also select "Upload from Gallery" to choose existing photos from your device.</p>
-                  </div>
-                </div>
-                
                 <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
-                  <p className="text-orange-800 font-medium">
-                    ✓ Your privacy is protected - we only access your camera when you explicitly choose to take a photo.
-                  </p>
+                  <div className="text-xs text-orange-800">
+                    <p className="font-medium mb-2">Why this matters:</p>
+                    <ul className="list-disc list-inside space-y-1">
+                      <li>Prevents malware file uploads</li>
+                      <li>Ensures authentic property photos</li>
+                      <li>Provides GPS and camera metadata for verification</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
               

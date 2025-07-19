@@ -1,8 +1,8 @@
 import React from 'react';
 import { Flame, Clock, Mail, MapPin } from 'lucide-react';
 import { FaYoutube, FaInstagram, FaTwitter, FaPinterest, FaFacebook } from 'react-icons/fa';
-// Footer logo - main logo for dark background from public directory
-const logoImage = '/footer-logo.png';
+// Footer logo - using existing main logo from attached assets
+const logoImage = '/attached_assets/Main-logo_1752533627368.png';
 
 export function Footer() {
   return (
